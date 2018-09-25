@@ -1,19 +1,23 @@
-const { askQuestions } = require('./ask');
-const connection = {};
+import DB from './service/readline'
 
-let connectionQuestion = [
-    'Name to database to encrypt. ',
-    'Username ? ',
-    'password ',
-    'port number '
-];
+let dbQuestion = new DB()
+let dbQuestions = [
+  'Database Name :- ',
+  'User :- ',
+  'Password :- ',
+  'Port :- '
+]
 
-askQuestions(connectionQuestion)
-    .then(answers => {
-        // Do whatever you like with the array of answers
-        connection.db = answers[0];
-        connection.user = answers[1];
-        connection.password = answers[2];
-        connection.port = answers[3];
-        console.log(connection);
-    });
+let dbConfig = []
+
+async function ask(questions) {
+  for (const question of questions) {
+    let ans = await dbQuestion.askQuestion(question)
+    dbConfig.push(ans);
+  }
+  dbQuestion.close();
+}
+
+ask(dbQuestions)
+
+module.exports = dbConfig
