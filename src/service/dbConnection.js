@@ -1,14 +1,21 @@
-import { mysql } from 'mysql'
-import { dbConfig } from '../index'
+import  mysql  from 'mysql'
 
 class DatabaseConnection {
   constructor () {
     this.connection
-    this.config = dbConfig
   }
-  
-  getConnection () {
-    let connection = mysql.createConnection(this.config)
+  makeConnectionObject(config) {
+    return {
+      'host': config[0],
+      'user': config[1],
+      'password': config[2],
+      'database': config[3],
+      'port': config[4]
+    }
+  }
+
+  getConnection (obj) {
+    let connection = mysql.createConnection(obj)
     // Add events on this connection
     connection.on('error', function (err) {
       console.log('DATABASE_CONNECTION_LOST: The server closed the connection ', err.code ? err : err.stack)
