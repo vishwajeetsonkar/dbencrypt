@@ -1,7 +1,7 @@
-import  mysql  from 'mysql'
+import mysql from 'mysql'
 
 class DatabaseConnection {
-  constructor () {
+  constructor() {
     this.connection
   }
   makeConnectionObject(config) {
@@ -14,7 +14,7 @@ class DatabaseConnection {
     }
   }
 
-  getConnection (obj) {
+  getConnection(obj) {
     let connection = mysql.createConnection(obj)
     // Add events on this connection
     connection.on('error', function (err) {
@@ -24,7 +24,7 @@ class DatabaseConnection {
     return connection
   }
 
-  connect () {
+  connect() {
     return new Promise((resolve, reject) => {
       if (!this.connection || this.connection.state === 'disconnected') {
         this.connection = this.getConnection()
@@ -47,7 +47,7 @@ class DatabaseConnection {
   }
 
   // Share current instance
-  getInstance () {
+  getInstance() {
     return this.connection
   }
 }

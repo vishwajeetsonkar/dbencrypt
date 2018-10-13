@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Readline from './service/readline'
 import DB from './service/dbConnection'
 const crypto = require('crypto')
@@ -19,7 +18,7 @@ let dbQuestions = [
 
 let dbConfig = []
 let Tables = []
-async function ask (questions) {
+async function ask(questions) {
   for (const question of questions) {
     let ans = await dbQuestion.askQuestion(question)
     dbConfig.push(ans)
@@ -28,12 +27,12 @@ async function ask (questions) {
   return dbConfig
 }
 
-function makeConfigObject (dbConfig) {
+function makeConfigObject(dbConfig) {
   let obj = Database.makeConnectionObject(dbConfig)
   return obj
 }
 
-async function makeConnection (conObj) {
+async function makeConnection(conObj) {
   return Database.getConnection(conObj)
 }
 
@@ -78,14 +77,15 @@ let streamListener = (connection, options) => {
   })
 }
 
-function processRow (row) {
+function processRow(row) {
   const cipher = crypto.createCipher('aes-256-ctr', secret)
-  let encrypted = cipher.update(row.password, 'utf8', 'hex')
+  console.log(row.gscname, '******************')
+  let encrypted = cipher.update(row.gscname, 'utf8', 'hex')
   encrypted += cipher.final('hex')
   return encrypted
 }
 
-async function main () {
+async function main() {
   let dbConfig = await ask(dbQuestions)
   let conObj = makeConfigObject(dbConfig)
   let connection = await makeConnection(conObj)
@@ -95,28 +95,3 @@ async function main () {
 }
 
 main()
-=======
-import DB from './service/readline'
-
-let dbQuestion = new DB()
-let dbQuestions = [
-  'Database Name :- ',
-  'User :- ',
-  'Password :- ',
-  'Port :- '
-]
-
-let dbConfig = []
-
-async function ask(questions) {
-  for (const question of questions) {
-    let ans = await dbQuestion.askQuestion(question)
-    dbConfig.push(ans);
-  }
-  dbQuestion.close();
-}
-
-ask(dbQuestions)
-
-module.exports = dbConfig
->>>>>>> 8b735d3abf579c716a3e7d81ae15bd94d1f96f4b
